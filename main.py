@@ -37,25 +37,33 @@ class Player(GameSprite):
         self.derecha= transform.rotate(self.original,90)
         self.arriba= transform.rotate(self.original,180)
         self.izquierda= transform.rotate(self.original,270)
-        
+        self.speed_boost = 0
+        self.boost_timer = 0
 
     def update(self):
         keys = key.get_pressed()
+
+        if self.speed_boost > 0:
+            self.boost_timer -= 1
+            if self.boost_timer <= 0:
+                self.speed_boost = 0
+        
+        current_speed = self.speed + self.speed_boost
         if keys[K_d] and self.rect.x <= ANCHO - self.rect.w:
             self.image= self.derecha
-            self.rect.x += self.speed
+            self.rect.x += current_speed
             
         elif keys[K_a] and self.rect.x >= 0:
             self.image= self.izquierda
-            self.rect.x -= self.speed
+            self.rect.x -= current_speed
 
         elif keys[K_s] and self.rect.y < ALTO - self.rect.h:
             self.image= self.original
-            self.rect.y += self.speed
+            self.rect.y += current_speed
 
         elif keys[K_w] and self.rect.y > 0:
             self.image= self.arriba
-            self.rect.y -= self.speed
+            self.rect.y -= current_speed
             
 
 
@@ -88,7 +96,6 @@ class Enemy(GameSprite):
             
         super().__init__(sprite_img, x, y, width, height, speed)
         self.direction = direction
-        self.dx, self.dy = self.dx, self.dy
 
     def update(self):
         self.rect.x += self.dx
@@ -123,20 +130,25 @@ class Items(GameSprite):
 class Queso(GameSprite):
     def __init__(self, sprite_img, sprite_width, sprite_height):
          
-        cord_x = randint(0,ANCHO- sprite_height)
-        cord_y = randint(0,ALTO-sprite_width)
+        cord_x = randint(0,ANCHO- sprite_width)
+        cord_y = randint(0,ALTO-sprite_height)
         super().__init__(sprite_img, cord_x, cord_y, sprite_width, sprite_height, 0)
 
 # OBJETOS
 background = transform.scale(image.load(BG_IMG), (ANCHO, ALTO))
 player = Player(PLAYER_IMG, (ANCHO - 80) // 2, ALTO - 70, 70, 90, 5)
-
+winner= transform.scale(image.load(WIN_IMG),(ANCHO,ALTO))
+lose= transform.scale(image.load(LOSE_IMG),(ANCHO,ALTO))
 
 # trabajando con grupos:
 all_sprites = sprite.Group()
 enemies = sprite.Group()
 items = sprite.Group()
+cheeses = sprite.Group()
 
+cheese_spawn_timer = 0  
+enemy_spawn_timer = 0
+item_spawn_timer = 0
 
 # CICLO DE JUEGO
 run = True
@@ -155,6 +167,7 @@ while run:
         screen.blit(background, (0, 0))
         enemy_spawn_timer += 1
         item_spawn_timer += 1
+        cheese_spawn_timer += 1
 
         if enemy_spawn_timer > ENEMY_SPAWN_RATE:
             new_enemy = Enemy(ENEMY_IMG, 80, 60, 3)
@@ -163,10 +176,41 @@ while run:
             enemy_spawn_timer = 0
 
         if item_spawn_timer > ITEM_SPAWN_RATE:
-            new_item = Items(ITEM_IMG, 40, 40, 10)  
+            new_item = Items(ITEM_IMG, 40, 40, 2)  
             all_sprites.add(new_item)
             items.add(new_item)
             item_spawn_timer = 0
+
+        if cheese_spawn_timer > CHEESE_SPAWN_RATE and len(cheeses) == 0:
+            new_cheese = Queso(CHEESE_IMG, 30, 30)
+            all_sprites.add(new_cheese)
+            cheeses.add(new_cheese)
+            cheese_spawn_timer = 0
+
+        for enemy in enemies:
+            if sprite.collide_rect(player, enemy):
+                enemy.kill()
+                enemies.remove(enemy)
+                all_sprites.remove(enemy)
+                lives-=1
+
+
+        for item in items:
+            if sprite.collide_rect(player, item):
+                player.speed_boost = item.bonus
+                player.boost_timer = 180
+                item.kill()
+                items.remove(item)
+                all_sprites.remove(item)
+
+
+        for cheese in cheeses:
+            if sprite.collide_rect(player, cheese):
+                cheese.kill()
+                cheeses.remove(cheese)
+                all_sprites.remove(cheese)
+                has_cheese = True
+                points+=1
 
         player.reset()
         player.update()
@@ -176,6 +220,15 @@ while run:
         
 
 
+        if points==5:
+            finish = True
+            screen.fill(BLACK)
+            screen.blit(winner,(0,0))
+
+        if lives==0:
+            finish = True
+            screen.fill(BLACK)
+            screen.blit(lose,(0,0))
 
         # CONDICION VICTORIA
         # if victoria:
