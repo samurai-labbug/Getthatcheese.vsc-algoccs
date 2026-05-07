@@ -15,7 +15,6 @@ display.set_caption(TITULO)
 
 
 
-
 # CLASE PRINCIPAL
 class GameSprite(sprite.Sprite):
     def __init__(self, sprite_img, cord_x, cord_y, width, height, speed=0):
@@ -136,9 +135,11 @@ class Queso(GameSprite):
         cord_y = randint(0,ALTO-sprite_height)
         super().__init__(sprite_img, cord_x, cord_y, sprite_width, sprite_height, 0)
 
+
+
 # OBJETOS
 background = transform.scale(image.load(BG_IMG), (ANCHO, ALTO))
-player = Player(PLAYER_IMG, (ANCHO - 80) // 2, ALTO - 100, 70, 90, 5)
+player = Player(PLAYER_IMG, (ANCHO - 80) // 2, (ALTO - 100)//2, 70, 90, 5)
 winner= transform.scale(image.load(WIN_IMG),(ANCHO,ALTO))
 lose= transform.scale(image.load(LOSE_IMG),(ANCHO,ALTO))
 font_1= font.Font(TEXT_FONT,30)
@@ -153,6 +154,26 @@ cheese_spawn_timer = 0
 enemy_spawn_timer = 0
 item_spawn_timer = 0
 
+#RESTART
+def restart_game():
+    global player,all_sprites,enemies, items, cheeses
+    global points, lives, has_cheese,cheese_spawn_timer, enemy_spawn_timer, item_spawn_timer, finish
+
+    all_sprites.empty()
+    enemies.empty()
+    items.empty()
+    cheeses.empty()
+
+    player = Player(PLAYER_IMG, (ANCHO - 80) // 2, (ALTO - 100)//2, 70, 90, 5)
+
+    points=0
+    lives=3
+    cheese_spawn_timer=0
+    enemy_spawn_timer=0
+    item_spawn_timer=0
+    has_cheese = False
+    finish= False
+
 # CICLO DE JUEGO
 run = True
 finish = False # ESTADO DE JUEGO
@@ -164,7 +185,7 @@ while run:
             run = False # bandera de estado
         if e.type == KEYDOWN:
             if e.key == K_r:
-                finish = False
+                restart_game()
         
 
     if not finish:

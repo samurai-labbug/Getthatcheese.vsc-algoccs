@@ -1,6 +1,6 @@
 # CONSTANTES
 
-ANCHO, ALTO = 940, 940
+ANCHO, ALTO = 1040, 840
 FPS = 60
 TITULO = 'Project Get that cheese'
 BACK_COLOR = (18, 180, 95)
