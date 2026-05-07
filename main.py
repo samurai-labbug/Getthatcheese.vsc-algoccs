@@ -139,6 +139,7 @@ background = transform.scale(image.load(BG_IMG), (ANCHO, ALTO))
 player = Player(PLAYER_IMG, (ANCHO - 80) // 2, ALTO - 70, 70, 90, 5)
 winner= transform.scale(image.load(WIN_IMG),(ANCHO,ALTO))
 lose= transform.scale(image.load(LOSE_IMG),(ANCHO,ALTO))
+font_1= font.Font(TEXT_FONT,30)
 
 # trabajando con grupos:
 all_sprites = sprite.Group()
@@ -217,6 +218,13 @@ while run:
         
         all_sprites.update()
         all_sprites.draw(screen)
+
+        puntaje_text= font_1.render(f'CHEESE {points}/20', 1 , WHITE)
+        puntaje_vidas= font_1.render(f'Vidas= {lives}', 1 , (170,220,180))
+
+        screen.blit(puntaje_vidas,(600,20))
+        screen.blit(puntaje_text,(20,20))
+    
         
 
 
