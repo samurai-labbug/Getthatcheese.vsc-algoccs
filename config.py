@@ -1,6 +1,6 @@
 # CONSTANTES
 
-ANCHO, ALTO = 720, 780
+ANCHO, ALTO = 940, 940
 FPS = 60
 TITULO = 'Project Get that cheese'
 BACK_COLOR = (18, 180, 95)
@@ -14,7 +14,7 @@ lives= 3
 #spawneo
 
 CHEESE_SPAWN_RATE = 180
-ENEMY_SPAWN_RATE = 30  # Cada 1 segundo a 60 FPS
+ENEMY_SPAWN_RATE = 20  # Cada 1 segundo a 60 FPS
 ITEM_SPAWN_RATE = 240
 has_cheese = False
 

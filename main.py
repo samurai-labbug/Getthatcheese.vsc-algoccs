@@ -13,6 +13,9 @@ font.init()
 screen = display.set_mode((ANCHO, ALTO))
 display.set_caption(TITULO)
 
+
+
+
 # CLASE PRINCIPAL
 class GameSprite(sprite.Sprite):
     def __init__(self, sprite_img, cord_x, cord_y, width, height, speed=0):
@@ -129,14 +132,13 @@ class Items(GameSprite):
 
 class Queso(GameSprite):
     def __init__(self, sprite_img, sprite_width, sprite_height):
-         
         cord_x = randint(0,ANCHO- sprite_width)
         cord_y = randint(0,ALTO-sprite_height)
         super().__init__(sprite_img, cord_x, cord_y, sprite_width, sprite_height, 0)
 
 # OBJETOS
 background = transform.scale(image.load(BG_IMG), (ANCHO, ALTO))
-player = Player(PLAYER_IMG, (ANCHO - 80) // 2, ALTO - 70, 70, 90, 5)
+player = Player(PLAYER_IMG, (ANCHO - 80) // 2, ALTO - 100, 70, 90, 5)
 winner= transform.scale(image.load(WIN_IMG),(ANCHO,ALTO))
 lose= transform.scale(image.load(LOSE_IMG),(ANCHO,ALTO))
 font_1= font.Font(TEXT_FONT,30)
@@ -163,6 +165,7 @@ while run:
         if e.type == KEYDOWN:
             if e.key == K_r:
                 finish = False
+        
 
     if not finish:
         screen.blit(background, (0, 0))
@@ -203,6 +206,7 @@ while run:
                 item.kill()
                 items.remove(item)
                 all_sprites.remove(item)
+                lives+=1
 
 
         for cheese in cheeses:
@@ -222,13 +226,13 @@ while run:
         puntaje_text= font_1.render(f'CHEESE {points}/20', 1 , WHITE)
         puntaje_vidas= font_1.render(f'Vidas= {lives}', 1 , (170,220,180))
 
-        screen.blit(puntaje_vidas,(600,20))
+        screen.blit(puntaje_vidas,(ANCHO-140,20))
         screen.blit(puntaje_text,(20,20))
-    
-        
 
 
-        if points==5:
+
+
+        if points==20:
             finish = True
             screen.fill(BLACK)
             screen.blit(winner,(0,0))
@@ -238,11 +242,7 @@ while run:
             screen.fill(BLACK)
             screen.blit(lose,(0,0))
 
-        # CONDICION VICTORIA
-        # if victoria:
-        #     finish = True
-        #     screen.fill(BLACK)
-        # CONDICION DERROTA
+
 
 
 
