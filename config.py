@@ -1,15 +1,14 @@
 # CONSTANTES
 
-ANCHO, ALTO = 1040, 840
+ANCHO, ALTO = 1040, 680
 FPS = 60
-TITULO = 'Project Get that cheese'
+TITULO = 'Project Get That Cheese'
 BACK_COLOR = (18, 180, 95)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
 points= 0
 lives= 3
-
 
 #spawneo
 
@@ -27,3 +26,4 @@ BG_IMG = 'src/Woodfloocheeseproye.png'
 TEXT_FONT = 'src/Honk-Regular-VariableFont_MORF,SHLN.ttf'
 CHEESE_IMG= 'src/Cheeseratgame-removebg-preview.png'
 ITEM_IMG= 'src/pillitem-removebg-previewlk.png'
+INICIO_IMG='src/Imagen de inicio.png'

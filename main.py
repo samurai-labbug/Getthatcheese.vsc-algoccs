@@ -138,6 +138,7 @@ class Queso(GameSprite):
 
 
 # OBJETOS
+inicio= transform.scale(image.load(INICIO_IMG),(ANCHO,ALTO))
 background = transform.scale(image.load(BG_IMG), (ANCHO, ALTO))
 player = Player(PLAYER_IMG, (ANCHO - 80) // 2, (ALTO - 100)//2, 70, 90, 5)
 winner= transform.scale(image.load(WIN_IMG),(ANCHO,ALTO))
@@ -178,6 +179,7 @@ def restart_game():
 run = True
 finish = False # ESTADO DE JUEGO
 clock = time.Clock()
+game_started = False
 
 while run:
     for e in event.get():
@@ -186,9 +188,27 @@ while run:
         if e.type == KEYDOWN:
             if e.key == K_r:
                 restart_game()
+        if e.type == KEYDOWN:
+            if e.key == K_SPACE:
+                game_started= True
         
 
+    
+        
+    if not game_started:
+        screen.blit(inicio, (0, 0))
+        titulo = font.Font(None, 72).render("¡PRESIONA ESPACIO!", True, WHITE)
+        instrucciones = font_1.render("para comenzar el juego", True, WHITE)
+        
+        screen.blit(titulo, (ANCHO//2 - titulo.get_width()//2, ALTO//2 - 300))
+        screen.blit(instrucciones, (ANCHO//2 - instrucciones.get_width()//2, ALTO//2 - 240))
+        
+        display.update()
+        clock.tick(FPS)
+        continue
+
     if not finish:
+        screen.fill(BLACK)
         screen.blit(background, (0, 0))
         enemy_spawn_timer += 1
         item_spawn_timer += 1
@@ -240,7 +260,7 @@ while run:
 
         player.reset()
         player.update()
-        
+                
         all_sprites.update()
         all_sprites.draw(screen)
 
@@ -250,18 +270,20 @@ while run:
         screen.blit(puntaje_vidas,(ANCHO-140,20))
         screen.blit(puntaje_text,(20,20))
 
+        para_downs= font_1.render(f'PRESIONE R PARA REINICIAR', 1 , WHITE)
 
 
-
-        if points==20:
+        if points==1:
             finish = True
             screen.fill(BLACK)
             screen.blit(winner,(0,0))
+            screen.blit(para_downs,((ANCHO/2)-155,ALTO-100))
 
         if lives==0:
             finish = True
             screen.fill(BLACK)
             screen.blit(lose,(0,0))
+            screen.blit(para_downs,(ANCHO/2,20))
 
 
 
