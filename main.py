@@ -4,17 +4,8 @@ from random import *
 init()
 mixer.init()  # Inicializar mixer para sonidos
 
-# CARGAR SONIDOS (agregar estas rutas a tu config.py)
-# SOUND_START = "sounds/start.wav"
-# SOUND_GAME = "sounds/game.mp3" 
-# SOUND_WIN = "sounds/win.wav"
-# SOUND_LOSE = "sounds/lose.wav"
 
-# Si no tienes los archivos, descomenta estas líneas en config.py y crea la carpeta sounds/
-# SOUND_START = "sounds/start.mp3"
-# SOUND_GAME = "sounds/game_loop.mp3"
-# SOUND_WIN = "sounds/victory.wav"
-# SOUND_LOSE = "sounds/game_over.wav"
+
 
 # TRABAJO CON FUENTES
 font.init()
