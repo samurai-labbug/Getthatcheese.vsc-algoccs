@@ -27,3 +27,8 @@ TEXT_FONT = 'src/Honk-Regular-VariableFont_MORF,SHLN.ttf'
 CHEESE_IMG= 'src/Cheeseratgame-removebg-preview.png'
 ITEM_IMG= 'src/pillitem-removebg-previewlk.png'
 INICIO_IMG='src/Imagen de inicio.png'
+
+SOUND_START = "sounds/start.mp3"
+SOUND_GAME = "sounds/game_loop.mp3"
+SOUND_WIN = "sounds/victory.mp3"
+SOUND_LOSE = "sounds/game_over.mp3"
